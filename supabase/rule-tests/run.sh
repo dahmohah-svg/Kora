@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Runs the database tests on a throwaway local Postgres (16+).
-# Each tests/*.test.sql file gets a fresh database with all migrations applied.
+# Each rule-tests/*.test.sql file gets a fresh database with all migrations applied.
 #
-#   supabase/tests/run.sh            # all tests
-#   supabase/tests/run.sh points     # files whose name contains "points"
+#   supabase/rule-tests/run.sh            # all tests
+#   supabase/rule-tests/run.sh points     # files whose name contains "points"
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
