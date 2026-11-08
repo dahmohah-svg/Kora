@@ -82,3 +82,12 @@ select t.login((select id from ctx where k = 'host'));
 select public.host_add_player((select id from ctx where k = 'team'), (select phone from auth.users where id = (select id from ctx where k = 'friend')), 'forward');
 select t.eq(public.is_in_match((select id from ctx where k = 'team'), (select id from ctx where k = 'friend')), true, 'host added app player by phone');
 select t.fails($$select public.host_add_player((select id from ctx where k = 'team'), '+20 100 000 9999', 'forward')$$, 'player_not_on_app', 'unknown phone refused');
+
+-- Host removes a guest: the spot is freed but the record is kept.
+select t.login((select id from ctx where k = 'host'));
+select public.host_remove_guest((select id from public.match_players where guest_name = 'Zizo'));
+select t.eq((select status::text from public.match_players where guest_name = 'Zizo'), 'left_free', 'removed guest is marked as left, not deleted');
+select t.eq(public.joined_count((select id from ctx where k = 'team')), 7, 'removed guest no longer counted (8 -> 7)');
+select t.fails($$select public.host_remove_guest((select id from public.match_players where guest_name = 'Zizo'))$$, 'guest_not_found', 'cannot remove the same guest twice');
+select t.login((select id from ctx where k = 'friend'));
+select t.fails($$select public.host_remove_guest((select id from public.match_players where guest_name = 'Mido'))$$, 'host_only', 'only the host removes guests');

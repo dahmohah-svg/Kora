@@ -457,7 +457,8 @@ begin
 end;
 $$;
 
--- The host removes a guest they added.
+-- The host removes a guest they added. The spot is marked as left (not
+-- deleted), so there is a record of who was removed.
 create or replace function public.host_remove_guest(p_spot uuid)
 returns void language plpgsql security definer
 set search_path = public
@@ -468,10 +469,17 @@ declare
   m public.matches;
 begin
   select * into spot from public.match_players where id = p_spot;
-  if not found or spot.guest_name is null then raise exception 'guest_not_found' using errcode = 'P0002'; end if;
+  if not found or spot.guest_name is null or spot.status <> 'joined' then
+    raise exception 'guest_not_found' using errcode = 'P0002';
+  end if;
   select * into m from public.matches where id = spot.match_id;
   if m.host_id <> uid then raise exception 'host_only' using errcode = '42501'; end if;
-  delete from public.match_players where id = p_spot;
+  if m.status not in ('pending_pitch', 'open') or m.kickoff_at <= public.kora_now() then
+    raise exception 'match_not_open' using errcode = 'P0001';
+  end if;
+  update public.match_players
+     set status = 'left_free', left_at = public.kora_now(), team = null
+   where id = p_spot;
   perform public.after_roster_change(m.id);
 end;
 $$;

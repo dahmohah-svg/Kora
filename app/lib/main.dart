@@ -27,8 +27,7 @@ class _MissingConfig extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(24),
               child: Text(
-                'Run with --dart-define=SUPABASE_URL=... --dart-define=SUPABASE_PUBLISHABLE_KEY=... '
-                '(see app/README.md).',
+                'Run with --dart-define-from-file=config/kora.json (see app/README.md).',
                 textAlign: TextAlign.center,
               ),
             ),

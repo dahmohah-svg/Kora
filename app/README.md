@@ -4,13 +4,15 @@ Android and iPhone from one codebase. Arabic is the default language with right-
 
 ## Run
 
+The app is connected to the `kora` Supabase project (Frankfurt) through `config/kora.json`:
+
 ```sh
-flutter run \
-  --dart-define=SUPABASE_URL=https://<project-ref>.supabase.co \
-  --dart-define=SUPABASE_PUBLISHABLE_KEY=<publishable key from Supabase settings>
+flutter run --dart-define-from-file=config/kora.json
 ```
 
-Optional: `--dart-define=SHARE_BASE_URL=https://your-domain/m/` for the link in WhatsApp shares.
+The publishable key in that file is meant to ship inside the app; it can only do what the database security rules allow. Never put the `service_role` key in the app or this repository.
+
+Optional: add `"SHARE_BASE_URL": "https://your-domain/m/"` to the file for the link in WhatsApp shares.
 
 ## Test
 

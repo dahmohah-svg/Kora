@@ -41,12 +41,16 @@ flutter test
 
 Both run on every push through GitHub Actions (`.github/workflows/ci.yml`).
 
-## Setting up a real Supabase project
+## Supabase
 
-1. Create a project at supabase.com (choose the Frankfurt or closest region to Egypt).
-2. Install the Supabase CLI, then from this folder: `supabase link --project-ref <your-ref>` and `supabase db push`. This applies everything in `supabase/migrations`.
-3. In Authentication, turn on the Phone provider and connect an SMS provider that delivers to Egyptian numbers.
-4. Add your partner pitches (for now with SQL, or through `admin_upsert_pitch` once the admin panel exists). Make yourself admin: `update profiles set is_admin = true where id = '<your user id>';`
-5. Run the app against it (see [app/README.md](app/README.md)).
+The database runs in the Supabase project **kora** (`wzezqpesoaecnmclrmaj`, Frankfurt). Everything in `supabase/migrations` is applied there, and the scheduled jobs (finalizing matches, cancelling unconfirmed matches, reminders) are running.
+
+Still to do in the Supabase dashboard:
+
+1. Authentication > Sign In / Providers > Phone: turn it on and connect an SMS provider that delivers to Egyptian numbers.
+2. Add your partner pitches (SQL editor for now, or `admin_upsert_pitch` once the admin panel exists).
+3. After you sign in once in the app, make yourself admin: `update profiles set is_admin = true where id = '<your user id>';`
+
+To apply new migrations later: `supabase link --project-ref wzezqpesoaecnmclrmaj` then `supabase db push`.
 
 You own the Supabase project, this repository and the app store accounts, as the plan requires.

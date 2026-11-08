@@ -27,7 +27,7 @@ These are decisions taken while building. Each is easy to change; say if one is 
 - **A no-show's ratings don't count**, even if someone rated them.
 - **Rating the same player twice** in one match replaces the first rating, so it still counts once.
 - **Teams are shown only when the match is full**, or when the host presses "Split teams now" to play short. If someone leaves after that, the split is cleared and redone when the match fills again.
-- **Guests** (added by name) count as skill 3.0, are never rated, and pay the host directly.
+- **Guests** (added by name) count as skill 3.0, are never rated, and pay the host directly. When the host removes a guest, the spot is marked as left, not deleted, so there is a record.
 - **Late leavers and refunds.** When a new player takes a spot, the player who left late first gets the refund.
 - **The host cannot leave** their own match; they cancel it instead, which refunds everyone.
 - **Repeat offenders.** The 30 days are counted back from each no-show's kickoff. A pause that is already running is extended by 7 days.
