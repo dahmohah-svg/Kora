@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kora Admin</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Kora <span>Admin</span></div>
+    <nav id="tabs" hidden>
+      <button data-tab="matches" class="active">Matches</button>
+      <button data-tab="pitches">Pitches</button>
+      <button data-tab="disputes">Disputes <span class="count" id="count-disputes"></span></button>
+      <button data-tab="refunds">Refunds <span class="count" id="count-refunds"></span></button>
+      <button data-tab="players">Players</button>
+    </nav>
+    <button id="sign-out" class="link" hidden>Sign out</button>
+  </header>
+
+  <main id="app">
+    <section id="view-login" class="card narrow" hidden>
+      <h1>Sign in</h1>
+      <p class="muted">Use the phone number of your Kora admin account.</p>
+      <form id="form-phone">
+        <label>Phone number <input id="phone" type="tel" placeholder="01xxxxxxxxx" autocomplete="tel" required></label>
+        <button type="submit" class="primary">Send code</button>
+      </form>
+      <form id="form-code" hidden>
+        <label>Code from SMS <input id="code" inputmode="numeric" maxlength="6" required></label>
+        <button type="submit" class="primary">Sign in</button>
+        <button type="button" id="code-back" class="link">Use another number</button>
+      </form>
+      <p id="login-error" class="error" role="alert"></p>
+    </section>
+
+    <section id="view-not-admin" class="card narrow" hidden>
+      <h1>Not an admin</h1>
+      <p>This account is signed in but isn't an admin yet. Run this in the Supabase SQL editor, then reload:</p>
+      <pre id="make-admin-sql"></pre>
+    </section>
+
+    <section id="view-matches" class="view" hidden>
+      <div class="toolbar">
+        <h1>Matches</h1>
+        <label class="inline"><input type="checkbox" id="matches-pending-only"> Waiting for pitch confirmation only</label>
+      </div>
+      <div id="matches-list"></div>
+    </section>
+
+    <section id="view-pitches" class="view" hidden>
+      <div class="toolbar">
+        <h1>Pitches</h1>
+        <button id="pitch-add" class="primary">Add pitch</button>
+      </div>
+      <div id="pitches-list"></div>
+    </section>
+
+    <section id="view-disputes" class="view" hidden>
+      <div class="toolbar"><h1>Open disputes</h1></div>
+      <p class="muted">A player says a late or no-show report against them is wrong. Points for the match wait until you decide.</p>
+      <div id="disputes-list"></div>
+    </section>
+
+    <section id="view-refunds" class="view" hidden>
+      <div class="toolbar"><h1>Refunds due</h1></div>
+      <p class="muted">Pay these back through the payment provider (or by hand for now), then mark them as refunded.</p>
+      <div id="refunds-list"></div>
+    </section>
+
+    <section id="view-players" class="view" hidden>
+      <div class="toolbar">
+        <h1>Players</h1>
+        <form id="form-player-search" class="inline">
+          <input id="player-search" type="search" placeholder="Name or phone">
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <div id="players-list"></div>
+      <h2>Possible fake ratings</h2>
+      <p class="muted">Pairs who gave each other 5 stars in 3 or more matches in a row.</p>
+      <div id="collusion-list"></div>
+    </section>
+  </main>
+
+  <dialog id="pitch-dialog">
+    <form id="pitch-form" method="dialog">
+      <h2 id="pitch-dialog-title">Pitch</h2>
+      <input type="hidden" name="id">
+      <label>Name <input name="name" required></label>
+      <label>Area <input name="area" required placeholder="Maadi"></label>
+      <label>Address <input name="address" required></label>
+      <label>Google Maps link or "lat, lng"
+        <input name="location" required placeholder="https://maps.google.com/... or 29.96, 31.25">
+      </label>
+      <p class="hint" id="location-hint"></p>
+      <label>Price per hour (EGP) <input name="price" type="number" min="0" step="10" required></label>
+      <label>Contact phone (admin only) <input name="contact_phone" type="tel"></label>
+      <label>Photo links (one per line) <textarea name="photos" rows="2"></textarea></label>
+      <label class="inline"><input name="is_active" type="checkbox" checked> Active (players can book it)</label>
+      <p id="pitch-error" class="error" role="alert"></p>
+      <div class="actions">
+        <button type="button" id="pitch-cancel">Cancel</button>
+        <button type="submit" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" role="status" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="vendor/supabase-js-2.45.4/supabase.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

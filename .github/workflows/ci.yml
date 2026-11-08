@@ -26,3 +26,13 @@ jobs:
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
+
+  admin-panel:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: node admin/test/panel.test.mjs

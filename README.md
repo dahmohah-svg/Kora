@@ -6,6 +6,7 @@ Kora lets street footballers in Egypt find a 5v5 or 6v6 game, fill a missing spo
 | --- | --- |
 | `supabase/` | Database, every rule from the plan (points, ratings, attendance, refunds, team balancing), security, scheduled jobs, and tests |
 | `app/` | Flutter app for Android and iPhone. Arabic first (right-to-left), English second |
+| `admin/` | Web panel for admins: pitches, booking confirmations, disputes, refunds, bans |
 | `docs/` | How each rule is built, and what is left to build |
 
 ## What works today
@@ -22,7 +23,9 @@ Kora lets street footballers in Egypt find a 5v5 or 6v6 game, fill a missing spo
 - Profile with level, points, games played, on-time rate, and average rating (shown after 3 rated matches).
 - Share a match on WhatsApp, get directions in Google Maps.
 
-Not built yet: online payment, push/SMS delivery, the admin web panel. See [docs/next-steps.md](docs/next-steps.md).
+- Admin web panel: add pitches, confirm bookings, cancel matches, decide disputes, track refunds, ban players.
+
+Not built yet: online payment, push/SMS delivery. See [docs/next-steps.md](docs/next-steps.md).
 
 ## Running the tests
 
@@ -48,8 +51,8 @@ The database runs in the Supabase project **kora** (`wzezqpesoaecnmclrmaj`, Fran
 Still to do in the Supabase dashboard:
 
 1. Authentication > Sign In / Providers > Phone: turn it on and connect an SMS provider that delivers to Egyptian numbers.
-2. Add your partner pitches (SQL editor for now, or `admin_upsert_pitch` once the admin panel exists).
-3. After you sign in once in the app, make yourself admin: `update profiles set is_admin = true where id = '<your user id>';`
+2. Open the admin panel (`admin/README.md`), sign in, and run the one-line SQL it shows to make yourself admin.
+3. Add your partner pitches in the panel's Pitches tab.
 
 To apply new migrations later: `supabase link --project-ref wzezqpesoaecnmclrmaj` then `supabase db push`.
 

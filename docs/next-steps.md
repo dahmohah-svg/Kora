@@ -5,7 +5,7 @@ The database, all the rules and the main player screens are done. These pieces a
 1. **Supabase project and SMS sign-in.** Create the project, apply the migrations, and connect an SMS provider that delivers to Egyptian numbers. Needs your account and a provider contract.
 2. **Online payment (Paymob or Fawry).** An edge function that starts a payment only when `can_pay` is true, and a webhook that calls `payment_mark_paid`. Refunds marked `refund_due` are paid out through the provider, then marked `refunded`. Needs the company registration and a merchant account.
 3. **Push and SMS reminders.** The server already writes every message to the `notifications` table (reminders, teams ready, reports, pauses, refunds). An edge function sends unsent rows by Firebase Cloud Messaging, with SMS as fallback, and the app registers for push.
-4. **Admin web panel.** The server functions exist: `admin_upsert_pitch`, `confirm_pitch`, `cancel_match`, `admin_resolve_dispute`, `admin_mark_refunded`, `admin_set_banned`, `admin_collusion_flags`. The panel is a simple web page on top of them.
+4. ~~Admin web panel~~ Done: see `admin/README.md`. It still needs a home online (Netlify, Cloudflare Pages or GitHub Pages).
 5. **Share links.** Make `https://<domain>/m/<match id>` open the match in the app (Android App Links, iOS Universal Links) or the store if it isn't installed.
 6. **Pitch photos and map.** Upload photos to Supabase Storage and show pitches on a Google Map (needs a Maps API key).
 7. **App store release.** App icon, Google Play and Apple developer accounts in your company's name (Apple needs a D-U-N-S number).
